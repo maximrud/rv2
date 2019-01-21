@@ -1,0 +1,116 @@
+table.desk {
+    border-collapse: collapse;
+    border-style: hidden;
+}
+
+table.desk > thead > tr > td, 
+table.desk > thead > tr > th, 
+table.desk > tbody > tr > td, 
+table.desk > tbody > tr > th {
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    min-height: 32px;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;  
+    cursor: default;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+table.desk.black > tbody > tr > td.freecell {
+    cursor: url("../images/r32b.cur"), pointer;
+    cursor: url("../images/r32b.png") 16 16, pointer;
+    cursor: -webkit-image-set(url("../images/r32b.png") 1x, url("../images/r64b.png") 2x) 16 16, pointer;
+}
+
+table.desk.white > tbody > tr > td.freecell {
+    cursor: url("../images/r32w.cur"), pointer;
+    cursor: url("../images/r32w.png") 16 16, pointer;
+    cursor: -webkit-image-set(url("../images/r32w.png") 1x, url("../images/r64w.png") 2x) 16 16, pointer;
+}
+
+table.desk > tbody > tr > td {
+    background-size: 96px, 96px;
+    background-repeat: repeat;
+    background-image: url("../images/x64.png");
+    background-position: 64px 64px;
+}
+
+table.desk > tbody > tr > td[data-col="0"] {
+    background-position-x: 0;
+}
+
+table.desk > tbody > tr > td[data-col="14"] {
+    background-position-x: 128px;
+}
+
+table.desk > tbody > tr[data-row="0"] > td {
+    background-position-y: 0;
+}
+
+table.desk > tbody > tr[data-row="14"] > td {
+    background-position-y: 128px;
+}
+
+table.desk > tbody > tr[data-row="3"] > td[data-col="3"], 
+table.desk > tbody > tr[data-row="3"] > td[data-col="11"], 
+table.desk > tbody > tr[data-row="11"] > td[data-col="3"],
+table.desk > tbody > tr[data-row="11"] > td[data-col="11"] {
+    background-image: url("../images/x64p.png");
+}
+
+table.desk > tbody > tr > td.black,
+table.desk > tbody > tr[data-row="3"] > td[data-col="3"].black, 
+table.desk > tbody > tr[data-row="3"] > td[data-col="11"].black, 
+table.desk > tbody > tr[data-row="11"] > td[data-col="3"].black,
+table.desk > tbody > tr[data-row="11"] > td[data-col="11"].black {
+    color: white;
+    background-image: url("../images/x64b.png");
+}
+
+table.desk > tbody > tr > td.white,
+table.desk > tbody > tr[data-row="3"] > td[data-col="3"].white, 
+table.desk > tbody > tr[data-row="3"] > td[data-col="11"].white, 
+table.desk > tbody > tr[data-row="11"] > td[data-col="3"].white,
+table.desk > tbody > tr[data-row="11"] > td[data-col="11"].white {
+    color: black;
+    background-image: url("../images/x64w.png");
+}
+
+table.info > thead > tr > td,
+table.info > thead > tr > th,
+table.info > tbody > tr > td,
+table.info > tbody > tr > th {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+table.info > tbody > tr > td.black {
+    color: white;
+    font-size: 14px;
+    text-align: center;
+    vertical-align: middle;
+    background-size: 32px, 32px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url("../images/r64b.png");
+}
+
+table.info > tbody > tr > td.white {
+    color: black;
+    font-size: 14px;
+    text-align: center;
+    vertical-align: middle;
+    background-size: 32px, 32px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url("../images/r64w.png");
+}

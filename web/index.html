@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Gomoku</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="shortcut icon" href="images/favicon.ico">
+        <link rel="apple-touch-icon" sizes="76x76" href="images/apple-touch-icon-76.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="images/apple-touch-icon-120.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="images/apple-touch-icon-152.png">
+        <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/loading.css">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <header class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+                <a class="navbar-brand" href="#">Gomoku Standard</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" data-action="estimate" href="#">Estimate</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-action="compute" href="#">Compute</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-action="consistent" href="#">Consistent</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-toggle="modal" data-target="#configModal">Config</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarActionsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarActionsDropdown">
+                                <a class="dropdown-item" data-action="rotate" href="#">Rotate Board</a>
+                                <a class="dropdown-item" data-action="mirror" href="#">Mirror Board</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" data-action="back" href="#">Move Back</a>
+                                <a class="dropdown-item" data-action="init" href="#">Clear Position</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" data-action="download" href="#">Download Solution</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarRulesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Rules</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarRulesDropdown">
+                                <a class="dropdown-item active" data-action="rules/standard" href="#">Gomoku Standard</a>
+                                <a class="dropdown-item" data-action="rules/freestyle" href="#">Gomoku Free-Style</a>
+                                <a class="dropdown-item" data-action="rules/narabe" href="#">Gomoku Narabe</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" data-action="rules/renzu" href="#">Renzu</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <!--                    <form class="form-inline">
+                                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                                        </form>-->
+                </div>
+            </div>
+        </header>
+        <main class="container">
+            <section id="board" class="black">
+                <div class="row">
+                    <div class="col-lg">
+                        <table class="desk"></table>
+                    </div>
+                    <div class="col-lg">
+                        <h5>Information</h5>
+                        <p></p>
+                        <div class="float-left">
+                            <table class="table info">
+                                <tr>
+                                    <td>Next Move:</td>
+                                    <td data-info="move"></td>
+                                </tr>
+                                <tr>
+                                    <td>Solution State:</td>
+                                    <td data-info="state"></td>
+                                </tr>
+                                <tr>
+                                    <td>Solution Count:</td>
+                                    <td data-info="count"></td>
+                                </tr>
+                                <tr>
+                                    <td>Position Rating:</td>
+                                    <td data-info="rating"></td>
+                                </tr>
+                            </table>
+                            <button data-action="back" class="btn btn-outline-dark">Back</button>
+                            <button data-action="init" class="btn btn-outline-dark">Clear</button>
+                            <div class="line-progress">
+                                <div></div><div></div><div></div><div></div><div></div>
+                                <div></div><div></div><div></div><div></div><div></div>
+                                <div></div><div></div><div></div><div></div><div></div>
+                            </div>
+                            <p></p>
+                            <div class="alert alert-danger d-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <!-- Modal -->
+        <div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="configModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="configModalLabel">Config</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label for="computetarget" class="col-sm-6 col-form-label">Compute target</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="computetarget" value="35">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="computedepth" class="col-sm-6 col-form-label">Compute depth</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="computedepth" value="8">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="computesize" class="col-sm-6 col-form-label">Compute size</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="computesize" value="2500000">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="computeedges" class="col-sm-6 col-form-label">Compute edges</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="computeedges" value="15">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="computebrute" class="col-sm-6 col-form-label">Compute brute</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="computebrute" value="0">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group row">
+                            <label for="estimatedepth" class="col-sm-6 col-form-label">Estimate depth</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="estimatedepth" value="17">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="estimatesize" class="col-sm-6 col-form-label">Estimate size</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="estimatesize" value="25000">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <script src="libs/jquery/jquery-3.3.1.js"></script>
+        <script src="libs/popper/popper.min.js"></script>        
+        <script src="libs/bootstrap/js/bootstrap.min.js"></script>
+        <script src="libs/filesaver/FileSaver.min.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>
