@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Gomoku</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="images/favicon.ico">
+        <link rel="apple-touch-icon" sizes="76x76" href="images/apple-touch-icon-76.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="images/apple-touch-icon-120.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="images/apple-touch-icon-152.png">
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/loading.css">
+        <link rel="stylesheet" href="css/board.css">
+    </head>
+    <body>
+        <main id="board" class="container board">
+            <h4>Gomoku Standard</h4>
+            <div class="row">
+                <div class="col-lg">
+                    <table class="desk"></table>
+                </div>
+                <div class="col-lg">
+                    <h5>Info</h5>
+                    <div class="info-panel">
+                        <table class="table info">
+                            <tbody>
+                                <tr>
+                                    <td>Next move:</td>
+                                    <td data-info="move"></td>
+                                </tr>
+                                <tr>
+                                    <td>Left moves:</td>
+                                    <td data-info="left">34</td>
+                                </tr>
+                                <tr>
+                                    <td>Total moves:</td>
+                                    <td data-info="total">35</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button data-action="back" class="btn btn-outline-dark">Back</button>
+                        <button data-action="next" class="btn btn-outline-dark">Next</button>
+                        <button data-action="start" class="btn btn-outline-dark">Restart</button>
+                        <div class="line-progress">
+                            <div></div><div></div><div></div><div></div><div></div>
+                            <div></div><div></div><div></div><div></div><div></div>
+                            <div></div><div></div><div></div><div></div><div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <script src="js/pattern.js"></script>
+        <script src="js/figure.js"></script>
+        <script src="js/line.js"></script>
+        <script src="js/layout.js"></script>
+        <script src="js/edge.js"></script>
+        <script src="js/vertex.js"></script>
+        <script src="js/board.js"></script>
+    </body>
+</html>
