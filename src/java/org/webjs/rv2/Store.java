@@ -352,8 +352,8 @@ public final class Store extends AbstractSet<Vertex> implements Set<Vertex> {
                 }
 
                 // Код трансформации
-                int nextTransCode = Layout.transMultiple(transCode,
-                        e.vertex.transCode(vertex.makeMove(e.square)));
+                int nextTransCode = Layout.transMultiple(
+                        e.vertex.transCode(vertex.makeMove(e.square)), transCode);
 
                 // Записать следующий узел
                 subExists = true;
