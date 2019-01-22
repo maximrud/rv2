@@ -38,9 +38,21 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <button data-action="back" class="btn btn-outline-dark">Back</button>
-                        <button data-action="next" class="btn btn-outline-dark">Next</button>
-                        <button data-action="start" class="btn btn-outline-dark">Restart</button>
+                        <div class="form-group">
+                            <div class="form-check-inline">
+                                <input type="checkbox" id="automove" checked class="form-check-input"/>
+                                <label for="automove" class="form-check-label">Auto move</label>
+                            </div>
+                            <div class="form-check-inline">
+                                <input type="checkbox" id="showhelp" class="form-check-input"/>
+                                <label for="showhelp" class="form-check-label">Show help</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button data-action="back" class="btn btn-outline-dark">Back</button>
+                            <button data-action="next" class="btn btn-outline-dark">Next</button>
+                            <button data-action="start" class="btn btn-outline-dark">Restart</button>
+                        </div>
                         <div class="line-progress">
                             <div></div><div></div><div></div><div></div><div></div>
                             <div></div><div></div><div></div><div></div><div></div>

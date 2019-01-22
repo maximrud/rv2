@@ -15,6 +15,12 @@ function Board(el) {
         if (target.dataset.action) {
             self[target.dataset.action].call(self);
         }
+        if (target.id === 'automove') {
+            self.start();
+        }
+        if (target.id === 'showhelp') {
+            self.help();
+        }
     });
     this.load();
 }
@@ -89,15 +95,31 @@ Board.prototype.fill = function () {
         this.put(coord, '' + (index + 1), index % 2 ? 'white' : 'black');
     }, this);
     // Нарисовать предложение по следующим ходам
-    if (typeof this.current !== 'object') {
-        //for (var coord in this.current) {
-        //    if (coord !== 'count') {
-        //        this.put(this.transCoord(coord), '&diams;');
-        //    }
-        //}
-    }
+    this.help();
     // Установить цвет текущего хода
     this.hand();
+};
+
+// Нарисовать предложение по следующим ходам
+Board.prototype.help = function () {
+    var cells = this.el.querySelectorAll('table.desk > tbody > tr > td.freecell');
+    for (var i = 0; i < cells.length; ++i) {
+        cells[i].innerHTML = '&nbsp;';
+    }
+    var help = this.el.querySelector('#showhelp').checked;
+    var count = this.count();
+    if (help && typeof this.current === 'object' && count > 0
+            && this.record.length >= 2) {
+        for (var coord in this.current) {
+            if (coord !== 'count') {
+                var next = this.current[coord];
+                var c = Board.count(next);
+                if (count === 225 || c === 225 || c === count - 1) {
+                    this.put(this.transCoord(coord), '&diams;');
+                }
+            }
+        }
+    }
 };
 
 // Зафикировать выигрышь
@@ -147,6 +169,7 @@ Board.prototype.move = async function (coord) {
     this.record.push(coord);
     this.put(coord, '' + (index + 1), color);
     await this.find();
+    this.help();
     this.hand();
     await this.auto();
 };
@@ -156,9 +179,10 @@ Board.prototype.auto = function () {
     var self = this;
     return new Promise(function (resolve) {
         setTimeout(async function () {
-            var auto = self.record.length % 2 === 0
-                    ? self.attacker === Layout.BLACK
-                    : self.attacker === Layout.WHITE;
+            var auto = self.el.querySelector('#automove').checked
+                    && (self.record.length % 2 === 0
+                            ? self.attacker === Layout.BLACK
+                            : self.attacker === Layout.WHITE);
             var count = self.count();
             if (auto && typeof self.current === 'object' && count > 0) {
                 // Выбрать подходящие ходы
@@ -192,13 +216,15 @@ Board.prototype.back = async function () {
         var coord = this.record.pop();
         this.remove(coord);
         await this.find();
+        this.help();
         this.hand();
         if (waswin) {
             this.fill();
         }
         // Убираем ход белых/черных
-        var auto = this.record.length % 2 === 0 ?
-                this.attacker === Layout.BLACK : this.attacker === Layout.WHITE;
+        var auto = this.el.querySelector('#automove').checked
+                && (this.record.length % 2 === 0 ?
+                        this.attacker === Layout.BLACK : this.attacker === Layout.WHITE);
         if (auto) {
             await this.back();
             await this.auto();
@@ -215,7 +241,6 @@ Board.prototype.load = function () {
         if (xobj.readyState === 4) {
             if (xobj.status === 200) {
                 self.solution = JSON.parse(xobj.responseText);
-                // document.write('<pre>' + JSON.stringify(self.solution, null, 4) + '</pre>'); 
                 Board.fillCount(self.solution);
                 await self.find();
                 self.hand();
@@ -282,11 +307,13 @@ Board.prototype.estimate = async function () {
     }, this);
     // Рассчитать оценку обязательных ходов
     var layout = new Layout(moves);
+    // При автоматических партиях ищем комбинации завершения до 35 ходов
+    var computetarget = this.el.querySelector('#automove').checked ? 35 : 225;
     var vertex = Vertex.estimate(layout,
-            this.record.length % 2 ? Layout.WHITE : Layout.BLACK, false);
+            this.record.length % 2 ? Layout.WHITE : Layout.BLACK, true, computetarget);
     if (vertex.state === 0) {
         vertex = Vertex.estimate(layout,
-                this.record.length % 2 ? Layout.BLACK : Layout.WHITE, false);
+                this.record.length % 2 ? Layout.BLACK : Layout.WHITE, true, computetarget);
     }
     if (vertex.state === 0) {
         if (vertex.edges === null || vertex.edges.length === 0) {

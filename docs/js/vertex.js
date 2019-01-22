@@ -282,7 +282,7 @@ Vertex.prototype.compareTo = function (v) {
     if (v === null) {
         return -1;
     }
-    if (v.state === 0 && this.state === 0) {
+    if (v.state === this.state) {
         return this.rating - v.rating;
     }
     if ((v.state >= 0 && this.state <= 0)
