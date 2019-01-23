@@ -8,16 +8,24 @@ function Board(el) {
     this.start();
     var self = this;
     el.addEventListener('click', function (event) {
+        // Кликать во время расчета нельзя
+        if (self.calculating) {
+            return;
+        }
         var target = event.target;
+        // Ход на свободное поле
         if (target.className === 'freecell') {
             self.move(target.dataset.col + target.parentElement.dataset.row);
         }
+        // Нажатие кнопки
         if (target.dataset.action) {
             self[target.dataset.action].call(self);
         }
+        // Включение/выключение автохода
         if (target.id === 'automove') {
             self.start();
         }
+        // Включение/выключение подсказки
         if (target.id === 'showhelp') {
             self.help();
         }
@@ -164,6 +172,7 @@ Board.prototype.hand = function () {
 
 // Сделать ход
 Board.prototype.move = async function (coord) {
+    this.calculating = true;
     var index = this.record.length;
     var color = index % 2 ? 'white' : 'black';
     this.record.push(coord);
@@ -172,6 +181,7 @@ Board.prototype.move = async function (coord) {
     this.help();
     this.hand();
     await this.auto();
+    delete this.calculating;
 };
 
 // Автоматический ход черных/белых
@@ -211,6 +221,7 @@ Board.prototype.auto = function () {
 
 // Отменить ход
 Board.prototype.back = async function () {
+    this.calculating = true;
     if (this.record.length > 1) {
         var waswin = this.current.count === 1;
         var coord = this.record.pop();
@@ -230,6 +241,7 @@ Board.prototype.back = async function () {
             await this.auto();
         }
     }
+    delete this.calculating;
 };
 
 // Загрузить решение 
@@ -237,6 +249,7 @@ Board.prototype.load = function () {
     var xobj = new XMLHttpRequest(), self = this;
     xobj.overrideMimeType("application/json");
     xobj.open('GET', 'data/gomoku.json', true);
+    self.calculating = true;
     xobj.onreadystatechange = async function () {
         if (xobj.readyState === 4) {
             if (xobj.status === 200) {
@@ -246,6 +259,7 @@ Board.prototype.load = function () {
                 self.hand();
             }
             self.hideProgress();
+            delete self.calculating;
         }
     };
     xobj.send(null);
