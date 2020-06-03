@@ -309,7 +309,7 @@ Layout.prototype.addStone = function (square) {
 
 // Убрать камень из позиции
 Layout.prototype.removeStone = function (square) {
-    var ls = this.linse.slice(0);
+    var ls = this.lines.slice(0);
     for (var direction = 0; direction < 4; direction++) {
         var number = Line.lineNumber(direction, square);
         var offset = Line.lineOffset(direction, square);
